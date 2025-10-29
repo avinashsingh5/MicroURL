@@ -1,10 +1,18 @@
 const express = require('express');
 const app = express();
-
 const http = require('http');
-
 const server = http.createServer(app);
 
+
+const crypto = require('crypto');
+
+function generateUniqueCode() {
+    let code;
+    do {
+      code = crypto.randomBytes(4).toString('base64url'); // gives ~6 chars safely
+    } while (urlStore[code]);
+    return code;
+  }
 
 
 const urlStore = {};
@@ -32,9 +40,9 @@ app.get('/geturl',(req,res)=>{
       }
 
     
-    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    const code = generateUniqueCode();
     urlStore[code] = url;
-    res.send(`Your shortUrl: http://localhost:3000/${code}`);
+    res.send(`Your short URL: <a href="http://localhost:3000/${code}">http://localhost:3000/${code}</a>`);
     
 
 });
@@ -47,6 +55,7 @@ app.get('/showall', (req, res) => {
     res.send(output || 'No URLs stored yet');
   });
 
+
 app.get('/:code',(req,res)=>{
     if(urlStore.hasOwnProperty(req.params.code)){
         res.redirect(urlStore[req.params.code]);
@@ -55,6 +64,8 @@ app.get('/:code',(req,res)=>{
         res.send('Invalid URL');
     }
 });
+
+
 
 
   
