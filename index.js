@@ -18,6 +18,14 @@ app.get('/geturl',(req,res)=>{
 
 });
 
+app.get('/showall', (req, res) => {
+    let output = '';
+    for (let key in urlStore) {
+      output += `${key} → ${urlStore[key]}<br>`;
+    }
+    res.send(output || 'No URLs stored yet');
+  });
+
 app.get('/:code',(req,res)=>{
     if(urlStore.hasOwnProperty(req.params.code)){
         res.redirect(urlStore[req.params.code]);
@@ -27,13 +35,7 @@ app.get('/:code',(req,res)=>{
     }
 });
 
-app.get('/showall', (req, res) => {
-    let output = '';
-    for (let key in urlStore) {
-      output += `${key} → ${urlStore[key]}<br>`;
-    }
-    res.send(output || 'No URLs stored yet');
-  });
+
   
 
 server.listen(3000, ()=>{
