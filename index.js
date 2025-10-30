@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const url = require('./urlModel');
+const url = require('./src/urlModel');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const crypto = require('crypto');
@@ -11,8 +11,10 @@ const helmet = require('helmet');
 app.use(helmet());
 
 
-
-console.log(process.env.Mongo_Uri);
+const path = require('path');
+const cors = require('cors');
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect(process.env.Mongo_Uri, {
   useNewUrlParser: true,
@@ -34,7 +36,7 @@ async function generateUniqueCode() {
 
 
 // Generate short URL
-app.get('/geturl', async (req, res) => {
+app.get('/api/geturl', async (req, res) => {
   let inputUrl = req.query.url;
   if (!inputUrl) {
     return res.status(400).send('Missing URL parameter');
@@ -54,20 +56,30 @@ app.get('/geturl', async (req, res) => {
     return res.status(400).send('Invalid URL format');
   }
 
-  // generate and store in MongoDB
-  const code = await generateUniqueCode();
-  const newUrl = new url({ code, originalUrl: inputUrl });
-  await newUrl.save();
+  // generate and store in MongoDB and sendto frontend
+  try{
+    const code = await generateUniqueCode();
+    const newUrl = new url({code, originalUrl: inputUrl});
+    await newUrl.save();
 
-  res.send(`Your short URL: <a href="http://localhost:3000/${code}">http://localhost:3000/${code}</a>`);
+    //send json 
+    const host = req.get('host');
+    res.json({shortUrl: `http://${host}/${code}`,code: `${code}`});
+  }catch(err){
+    console.error(err);
+    res.status(500).json('Server error');
+  }
 });
 
 
 // Show all URLs
-app.get('/showall', async (req, res) => {
-  const urls = await url.find();
-  const safeOutput = urls.map(u => `${he.encode(u.code)} → ${he.encode(u.originalUrl)}`).join('<br>');
-  res.send(safeOutput || 'No URLs stored yet');
+app.get('/api/showall', async (req, res) => {
+  try{
+    const urls = await url.find({});
+    res.json(urls);
+  }catch(err){
+    res.status(500).json({error: 'Server error'});
+  }
 });
 
 

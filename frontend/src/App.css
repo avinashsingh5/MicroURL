@@ -1,0 +1,130 @@
+/* ---------- Global Container ---------- */
+.container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #fdfdfd;
+}
+
+/* ---------- Headings ---------- */
+h1 {
+  color: #1e3a8a;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-top: 30px;
+}
+
+/* ---------- Input & Button ---------- */
+.input-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 3px rgba(37, 99, 235, 0.4);
+}
+
+.input-group button {
+  padding: 10px 20px;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.input-group button:hover {
+  background-color: #1e40af;
+}
+
+.input-group button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ---------- Error message ---------- */
+.error {
+  color: crimson;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ---------- Shortened URL section ---------- */
+.short-url {
+  margin-top: 15px;
+  font-size: 1.1rem;
+}
+
+.short-url a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.short-url a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Table ---------- */
+.url-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 15px;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.url-table th,
+.url-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.url-table th {
+  background-color: #f1f5f9;
+  color: #111;
+}
+
+.url-table td a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.url-table td a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Copy Button ---------- */
+.copy-btn {
+  padding: 5px 10px;
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.copy-btn:hover {
+  background-color: #15803d;
+}
